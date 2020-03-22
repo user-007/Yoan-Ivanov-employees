@@ -1,3 +1,4 @@
+import java.util.*;
 public class PPair implements Comparable<PPair> {
 
     public PPair(int emp1_id, int emp2_id, long dys) {
@@ -18,12 +19,14 @@ public class PPair implements Comparable<PPair> {
         return dys;
     }
 
-    @Override
-    public int compareTo(PPair pp) {
-        return Long.compare(getDys(), pp.getDys());
-    }
-
     private int emp1_id; // long
     private int emp2_id;
     private long dys;
+
+    @Override
+    public int compareTo(PPair pp) {
+        return Comparator.comparingInt(PPair::getemp1_id)
+        .thenComparingInt(PPair::getemp2_id)
+        .compare(this,pp);
+    }
 }

@@ -1,9 +1,6 @@
-import javafx.util.Pair;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -13,7 +10,8 @@ public class StartApp {
 
 
     public static ArrayList<Employee> employees = new ArrayList<Employee>();
-    public static ArrayList<PPair> pairs = new ArrayList<PPair>();
+    public static ArrayList<PPair> pairs = new ArrayList<>();
+    public static ArrayList<PFinal> pfinal = new ArrayList<>();
 
     public static long getDays(String a, String b, String c, String d) {
         LocalDate i1Start = LocalDate.parse(a);
@@ -50,11 +48,12 @@ public class StartApp {
                 String[] str = line.split(",");
                 Employee emp = new Employee(str[0], str[1], str[2], str[3]);
                 if (emp.getDate_to().equals("NULL")) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-                    Date date = new Date();
-                    String ldt = dateFormat.format(date);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String ldt = dateFormat.format(new Date());
                     Employee empp = new Employee(str[0], str[1], str[2], ldt);
                     employees.add(empp);
+                } else {
+                    employees.add(emp);
                 }
                 line = reader.readLine();
             }
@@ -71,14 +70,28 @@ public class StartApp {
             }
         }
         Collections.sort(pairs);
-        Collections.reverse(pairs);
+        for (int i = 0; i < pairs.size(); i++) {
+            int suma = 0;
+            int emp1 = pairs.get(i).getemp1_id();
+            int emp2 = pairs.get(i).getemp2_id();
+            while (pairs.get(i).getemp1_id() == emp1 || pairs.get(i).getemp2_id() == emp2) {
+                suma += pairs.get(i).getDys();
+            }
+            pfinal.add(new PFinal(emp1, emp2, suma));
+        }
+
+        Collections.sort(pfinal);
+        Collections.reverse(pfinal);
         try {
-            System.out.println(pairs.get(0).getemp1_id());
-            System.out.println(pairs.get(0).getemp2_id());
+            if (pfinal.get(0).getFinal_days() == 0) {
+                System.out.println("No such pair exists.");
+            } else {
+                System.out.println(pfinal.get(0).getemp1());
+                System.out.println(pfinal.get(0).getemp2());
+            }
         } catch (Exception exp) {
             System.out.println(exp.getMessage());
         }
-
     }
 }
 
