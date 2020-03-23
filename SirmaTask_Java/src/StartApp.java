@@ -65,7 +65,14 @@ public class StartApp {
         for (int i = 0; i < employees.size(); i++) {
             for (int j = i + 1; j < employees.size(); j++) {
                 if (employees.get(i).getProjectid().equals((employees.get(j).getProjectid()))) {
-                    pairs.add(new PPair((Integer.parseInt(employees.get(i).getEmployeeid())), Integer.parseInt(employees.get(j).getEmployeeid()), getDays(employees.get(i).getDate_from(), employees.get(i).getDate_to(), employees.get(j).getDate_from(), employees.get(j).getDate_to())));
+                    if (!(employees.get(i).getEmployeeid().equals(employees.get(j).getEmployeeid()))) {
+                        if (Integer.parseInt(employees.get(i).getEmployeeid()) > Integer.parseInt(employees.get(j).getEmployeeid())) {
+                            pairs.add(new PPair((Integer.parseInt(employees.get(j).getEmployeeid())), Integer.parseInt(employees.get(i).getEmployeeid()), getDays(employees.get(i).getDate_from(), employees.get(i).getDate_to(), employees.get(j).getDate_from(), employees.get(j).getDate_to())));
+
+                        } else {
+                            pairs.add(new PPair((Integer.parseInt(employees.get(i).getEmployeeid())), Integer.parseInt(employees.get(j).getEmployeeid()), getDays(employees.get(i).getDate_from(), employees.get(i).getDate_to(), employees.get(j).getDate_from(), employees.get(j).getDate_to())));
+                        }
+                    }
                 }
             }
         }
@@ -74,12 +81,16 @@ public class StartApp {
             int suma = 0;
             int emp1 = pairs.get(i).getemp1_id();
             int emp2 = pairs.get(i).getemp2_id();
-            while (pairs.get(i).getemp1_id() == emp1 || pairs.get(i).getemp2_id() == emp2) {
+            while (pairs.get(i).getemp1_id() == emp1 && pairs.get(i).getemp2_id() == emp2) {
                 suma += pairs.get(i).getDys();
+                i++;
+                if (i == pairs.size()) {
+                    break;
+                }
             }
+            i--;
             pfinal.add(new PFinal(emp1, emp2, suma));
         }
-
         Collections.sort(pfinal);
         Collections.reverse(pfinal);
         try {
