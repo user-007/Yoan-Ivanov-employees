@@ -45,7 +45,7 @@ public class StartApp {
             reader = new BufferedReader(new FileReader(fl.getCanonicalPath()));
             String line = reader.readLine();
             while (line != null) {
-                String[] str = line.split(", ");
+                String[] str = line.split(",");
                 Employee emp = new Employee(str[0], str[1], str[2], str[3]);
                 if (emp.getDate_to().equals("NULL")) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -77,13 +77,6 @@ public class StartApp {
             }
         }
         Collections.sort(pairs);
-        System.out.println("Content of pairs");
-        for(int x= 0;x<pairs.size();x++){
-            System.out.println(pairs.get(x).getemp1_id());
-            System.out.println(pairs.get(x).getemp2_id());
-            System.out.println(pairs.get(x).getDys());
-
-        }
         for (int i = 0; i < pairs.size(); i++) {
             int suma = 0;
             int emp1 = pairs.get(i).getemp1_id();
@@ -100,24 +93,12 @@ public class StartApp {
         }
         Collections.sort(pfinal);
         Collections.reverse(pfinal);
-        System.out.println("Content of pfinal");
-        for(int i=0;i<pfinal.size();i++){
-            System.out.println(pfinal.get(i).getemp1());
-            System.out.println(pfinal.get(i).getemp2());
-            System.out.println(pfinal.get(i).getFinal_days());
-        }
         try {
-            if (pfinal.isEmpty() || pfinal.get(0).getFinal_days() == 0 ) {
+            if (pfinal.get(0).getFinal_days() == 0) {
                 System.out.println("No such pair exists.");
             } else {
-                long numdays = pfinal.get(0).getFinal_days();
-                int indx = 0;
-                System.out.println("The pairs are:");
-                while(pfinal.get(indx).getFinal_days() == numdays ){
-                    System.out.println(pfinal.get(indx).getemp1());
-                    System.out.println(pfinal.get(indx).getemp2());
-                  indx++;
-                }
+                System.out.println(pfinal.get(0).getemp1());
+                System.out.println(pfinal.get(0).getemp2());
             }
         } catch (Exception exp) {
             System.out.println(exp.getMessage());
